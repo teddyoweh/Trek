@@ -17,7 +17,7 @@ Trek uses a JSON file to store the geospatial map data. The file is stored in th
 
 The Location/Node Name is the keys, a hash map of latitude and longitude points are the values
 
-- map.json
+- map.json (earth)
 ```json
 {
     "Engineering Buiding":{
@@ -46,18 +46,55 @@ The Location/Node Name is the keys, a hash map of latitude and longitude points 
      },
 }
 ```
-### Quickstark
+-map.json (canvas)
+```json
+{
+    "A": {
+      "x": -0.019863067642025122,
+      "y": -0.943951654391012
+     }, 
+    "B": {
+      "x": 0.8559401394488363,
+      "y": -0.01622570094196981
+     }, 
+    "C": {
+      "x": 0.1397386472898502, 
+      "y": 0.9999999999999999
+     }, 
+    "D": {
+    "x": -0.9758157190966613,
+    "y": -0.03982264466701821
+     }
+}
+```
+### QuickStart
+- env varies depends on your map data - [earth or canvas]
 ```py
 from trekpy.Trek import Trek     
 
 # Initialize a Trek object
-t = Trek(filename='map.json',env='earth')
+t = Trek(filename='map.json',env='earth')  # or t = Trek(filename='map.json',env='canvas')
+```
+```py
+# Get Locations
+t.locations # list[str]
 
+#Estimate time to cover a distance from start to end over a time
+t.estimate_time(start='A',end='B',speed=3.1) # speed is default 3.1 - average walking speed miles per hour - returns in minutes
 # Visualize the graph representation of the map
-t.graph()
+t.graph() # View Data as a Map Visually
+
+# Distance between to points on the map
+t.distance('A', 'B')
+
+# Plot the map on a line graph
+t.plot_line_graph()
+
+# Plot the map on a dot graph 
+t.plot_dot_graph()
 
 # Find the optimal path between two points
-planned = ['A', 'B', 'C', 'D', 'E']
+planned = ['A', 'B', 'C', 'D', 'E'] # Places you plan to stop or visit, include start and end
 start = 'A'
 end = 'E'
 speed = 3.1
@@ -66,4 +103,7 @@ best_sol = t.find_optimal_path(planned=planned, start=start, end=end, speed=spee
 # Visualize the optimal path on the map
 t.visualize_optimal_path(best_sol['path'], best_sol['times'])
 
+
+
 ```
+
