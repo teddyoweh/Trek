@@ -1,4 +1,4 @@
-# Trek - Optimal Path Optimization on Geospatial Map
+# Trek - Optimal Path Simulaion on Geospatial Map
 
 Trek is a Python package that provides functionality for optimizing paths and travel times between nodes on a geospatial map, using graph theory algorithms and simulations. This package can be used to identify the best possible route between two or more points, based on factors such as distance, speed, and other constraints.
 
