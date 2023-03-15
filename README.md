@@ -46,12 +46,12 @@ The Location/Node Name is the keys, a hash map of latitude and longitude points 
      },
 }
 ```
-
+### Quickstark
 ```py
 from trek import Trek
 
 # Initialize a Trek object
-t = Trek(filename='map.json')
+t = Trek(filename='map.json',env='earth')
 
 # Visualize the graph representation of the map
 t.graph()
