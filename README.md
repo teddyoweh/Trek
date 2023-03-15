@@ -107,3 +107,13 @@ t.visualize_optimal_path(best_sol['path'], best_sol['times'])
 
 ```
 
+## Visualization
+
+### Graph - Mapping out Data
+![](./images/2.png)
+
+### Visualizing Optimal Path
+![](./images/1.png)
+
+### Dot Graph
+![](./images/3.png)
