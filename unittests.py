@@ -1,6 +1,6 @@
 import unittest
 import json
-from Trek import Trek
+from trekpy.Trek import Trek
 
 class TestTrek(unittest.TestCase):
 

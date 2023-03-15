@@ -1,12 +1,12 @@
 from trekpy.Trek import Trek        
-path = Trek("data.json",'canvas')
+path = Trek("nodes.json",'canvas')
 
-# path.graph()
-# print(path.locations)
-print(path.estimate_time('A','D',10))
-planned =['A','B','C','D']
-start = 'A'
-end='C'
+#path.graph()
+#print(path.locations)
+# print(path.estimate_time('A','D',10))
+planned =['Honors', 'Engineering', 'Science', 'Nursing', 'Rec','Lib', 'TNorth', 'Tsouth', 'Cen10', 'Legends', 'Legacy']
+start = 'Rec'
+end='Lib'
 best_sol = path.find_optimal_path(planned=planned,start=start,end=end,speed=4.1)
 print(best_sol)
 # path.visualize_optimal_path(best_sol['path'],best_sol['times'])
