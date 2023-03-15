@@ -1,0 +1,10 @@
+README.md
+setup.py
+trekpy/Trek.py
+trekpy/__init__.py
+trekpy/decorators.py
+trekpy.egg-info/PKG-INFO
+trekpy.egg-info/SOURCES.txt
+trekpy.egg-info/dependency_links.txt
+trekpy.egg-info/requires.txt
+trekpy.egg-info/top_level.txt

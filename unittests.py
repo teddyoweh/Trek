@@ -5,7 +5,7 @@ from Trek import Trek
 class TestTrek(unittest.TestCase):
 
     def setUp(self):
-        self.trek = Trek('data.json')
+        self.trek = Trek('data.json',env='earth')
 
     def test_load_map(self):
         self.assertIsNotNone(self.trek.map)

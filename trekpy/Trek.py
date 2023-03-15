@@ -1,6 +1,5 @@
 import json
 import time
-from decorators import timemycode
 import networkx as nx
 import matplotlib.pyplot as plt
 from math import sin, cos, sqrt, atan2, radians
@@ -13,7 +12,7 @@ class Trek(object):
 
         
         """
-        if(env.lower()!='earth' or env.lower()!='canvas' ):
+        if(env.lower()!='earth' and env.lower()!='canvas' ):
             raise ValueError('Invalid environment, use either [earth - lat,log ] or [ canvas -x,y ] ')
         self.env =env.lower()
         self.map = None

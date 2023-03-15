@@ -1,3 +1,18 @@
+Metadata-Version: 2.1
+Name: trekpy
+Version: 0.0.5
+Summary: Using graph theory algorithms and simulations, to optimaize paths and travel times between nodes on a geospatial map
+Home-page: https://github.com/teddyoweh/Trek
+Author: Teddy Oweh
+Author-email: teddyoweh@gmail.com
+License: MIT
+Keywords: Trek
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/markdown
+
 # Trek - Optimal Path Optimization on Geospatial Map
 
 Trek is a Python package that provides functionality for optimizing paths and travel times between nodes on a geospatial map, using graph theory algorithms and simulations. This package can be used to identify the best possible route between two or more points, based on factors such as distance, speed, and other constraints.
@@ -6,7 +21,7 @@ Trek is a Python package that provides functionality for optimizing paths and tr
 ### Installation
 To install Trek, you can use pip:
 ```sh
-$ python3 pip install trekpy
+$ python3 pip install trek
 ```
 
 ### Usage
@@ -48,7 +63,7 @@ The Location/Node Name is the keys, a hash map of latitude and longitude points 
 ```
 ### Quickstark
 ```py
-from trekpy.Trek import Trek     
+from trek import Trek
 
 # Initialize a Trek object
 t = Trek(filename='map.json',env='earth')
