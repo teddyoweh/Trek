@@ -7,16 +7,19 @@ from math import sin, cos, sqrt, atan2, radians
 import math
 
 class Trek(object):
-    def __init__(self,filename:str) -> None:
+    def __init__(self,filename:str,env:str) -> None:
         """
         :param filename:
 
         
         """
+        if(env.lower()!='earth' or env.lower()!='canvas' ):
+            raise ValueError('Invalid environment, use either [earth - lat,log ] or [ canvas -x,y ] ')
+        self.env =env.lower()
         self.map = None
         self.map_graph=None
 
- 
+    
         lat_miles_per_degree = 69
         lon_miles_per_degree = 69.172
         with open(filename, 'r') as f:
@@ -25,9 +28,10 @@ class Trek(object):
         with open(filename, 'r') as f:
             #self.map = json.load(f)
             self.map_graph=json.load(f)
-            for location in self.map_graph:
-                self.map_graph[location]['latitude'] *= lat_miles_per_degree
-                self.map_graph[location]['longitude'] *= lon_miles_per_degree
+            if(self.env =='earth'):
+                for location in self.map_graph:
+                    self.map_graph[location]['latitude'] *= lat_miles_per_degree
+                    self.map_graph[location]['longitude'] *= lon_miles_per_degree
 
     def graph(self):
         """
@@ -35,15 +39,22 @@ class Trek(object):
         """
         lat_miles_per_degree = 69
         lon_miles_per_degree = 69.172
+        if(self.env=='earth'):
+            for location in self.map_graph:
+                self.map_graph[location]['latitude'] *= lat_miles_per_degree
+                self.map_graph[location]['longitude'] *= lon_miles_per_degree
+            G = nx.Graph()
+            for location in self.map_graph:
+                latitude = self.map_graph[location]['latitude']
+                longitude = self.map_graph[location]['longitude']
+                G.add_node(location, pos=(longitude, latitude))
+        elif(self.env=='canvas'):
+            G = nx.Graph()
+            for location in self.map:
+                x = self.map[location]['x']
+                y = self.map[location]['y']
+                G.add_node(location, pos=(x, y))
 
-        for location in self.map_graph:
-            self.map_graph[location]['latitude'] *= lat_miles_per_degree
-            self.map_graph[location]['longitude'] *= lon_miles_per_degree
-        G = nx.Graph()
-        for location in self.map_graph:
-            latitude = self.map_graph[location]['latitude']
-            longitude = self.map_graph[location]['longitude']
-            G.add_node(location, pos=(longitude, latitude))
         pos = nx.get_node_attributes(G, 'pos')
         nx.draw(G, pos, with_labels=True ,node_color='lightblue', node_size=500, font_size=8)
         plt.show()
@@ -60,13 +71,17 @@ class Trek(object):
         ```
 
         """
+        if(self.env =='earth'):
+            varx,vary = 'latitude','longitude'
+        elif(self.env=='canvas'):
+                 varx,vary = 'x','y'
         distances = []
         times = []
         for i in range(len(planned) - 1):
-            start_lat = self.map_graph[planned[i]]['latitude']
-            start_lon = self.map_graph[planned[i]]['longitude']
-            end_lat = self.map_graph[planned[i+1]]['latitude']
-            end_lon = self.map_graph[planned[i+1]]['longitude']
+            start_lat = self.map_graph[planned[i]][varx]
+            start_lon = self.map_graph[planned[i]][vary]
+            end_lat = self.map_graph[planned[i+1]][varx]
+            end_lon = self.map_graph[planned[i+1]][vary]
             distance = ((end_lat - start_lat)**2 + (end_lon - start_lon)**2)**0.5
             time = self.estimate_time( planned[i], planned[i+1],speed)
             distances.append(distance)
@@ -78,10 +93,10 @@ class Trek(object):
             new_distances = []
             new_times = []
             for i in range(len(path) - 1):
-                start_lat = self.map_graph[path[i]]['latitude']
-                start_lon = self.map_graph[path[i]]['longitude']
-                end_lat = self.map_graph[path[i+1]]['latitude']
-                end_lon = self.map_graph[path[i+1]]['longitude']
+                start_lat = self.map_graph[path[i]][varx]
+                start_lon = self.map_graph[path[i]][vary]
+                end_lat = self.map_graph[path[i+1]][varx]
+                end_lon = self.map_graph[path[i+1]][vary]
                 distance = ((end_lat - start_lat)**2 + (end_lon - start_lon)**2)**0.5
                 time = self.estimate_time(path[i], path[i+1],speed)
                 new_distances.append(distance)
@@ -133,13 +148,17 @@ class Trek(object):
         self.visualize_optimal_path(best_sol['path'],best_sol['times'])
         ```
         """
+        if(self.env =='earth'):
+            varx,vary = 'latitude','longitude'
+        elif(self.env=='canvas'):
+                 varx,vary = 'x','y'
         G = nx.Graph()
         node_positions = {}
         node_labels = {}
 
         for node, data in self.map_graph.items():
             G.add_node(node)
-            node_positions[node] = (data['longitude'], data['latitude'])
+            node_positions[node] = (data[vary], data[varx])
             node_labels[node] = node
 
         start_node = best_path[0]
@@ -171,8 +190,12 @@ class Trek(object):
         ```
         
         """
-        lat1, lon1 =self.map_graph[start]['latitude'], self.map_graph[start]['longitude']
-        lat2, lon2 =self.map_graph[end]['latitude'], self.map_graph[end]['longitude']
+        if(self.env =='earth'):
+            varx,vary = 'latitude','longitude'
+        elif(self.env=='canvas'):
+                    varx,vary = 'x','y'
+        lat1, lon1 =self.map_graph[start][varx], self.map_graph[start][vary]
+        lat2, lon2 =self.map_graph[end][varx], self.map_graph[end][vary]
         lat_diff = radians(lat2 - lat1)
         lon_diff = radians(lon2 - lon1)
         a = sin(lat_diff / 2) ** 2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(lon_diff / 2) ** 2
@@ -205,13 +228,16 @@ class Trek(object):
         
         
         """
+        if(self.env =='earth'):
+            varx,vary = 'latitude','longitude'
+        elif(self.env=='canvas'):
+                 varx,vary = 'x','y'
+        lat1 = math.radians(self.map[pos1][varx])
+        lon1 = math.radians(self.map[pos1][vary])
 
-        lat1 = math.radians(self.map[pos1]['latitude'])
-        lon1 = math.radians(self.map[pos1]['longitude'])
-
-        lat2 = math.radians(self.map[pos2]['latitude'])
-        lon2 = math.radians(self.map[pos2]['longitude'])
-        print(self.map[pos1]['latitude'],self.map[pos1]['longitude'])
+        lat2 = math.radians(self.map[pos2][varx])
+        lon2 = math.radians(self.map[pos2][vary])
+        print(self.map[pos1][varx],self.map[pos1][vary])
 
     
         dlon = lon2 - lon1 
@@ -222,34 +248,41 @@ class Trek(object):
 
         return round(distance,1)
     def plot_dot_graph(self):
- 
+        if(self.env =='earth'):
+            varx,vary = 'latitude','longitude'
+        elif(self.env=='canvas'):
+                 varx,vary = 'x','y'
         xr=[]
         yr=[]
         for pos1 in self.map:
  
-            x = round((self.map[pos1]['longitude'] + 180) / 360 * 10,10)
-            y = round((self.map[pos1]['latitude']+90) / 180 * 10,10)
+            x = round((self.map[pos1][vary] + 180) / 360 * 10,10)
+            y = round((self.map[pos1][varx]+90) / 180 * 10,10)
             xr.append(x)
             yr.append(y)
         fig, ax = plt.subplots()
         ax.plot(xr, yr,'o')
-        ax.set_xlabel('X - Longitude')
-        ax.set_ylabel('Y - Latitude')
+        ax.set_xlabel(f'X - {varx.capitalize()}')
+        ax.set_ylabel(f'Y - {vary.capitalize()}')
         ax.set_title('Map')
         plt.show()
     def plot_line_graph(self):
+        if(self.env =='earth'):
+            varx,vary = 'latitude','longitude'
+        elif(self.env=='canvas'):
+                 varx,vary = 'x','y'
         xr=[]
         yr=[]
         for pos1 in self.map:
  
-            x = round((self.map[pos1]['longitude'] + 180) / 360 * 10,10)
-            y = round((self.map[pos1]['latitude']+90) / 180 * 10,10)
+            x = round((self.map[pos1][vary] + 180) / 360 * 10,10)
+            y = round((self.map[pos1][varx]+90) / 180 * 10,10)
             xr.append(x)
             yr.append(y)
         fig, ax = plt.subplots()
         ax.plot(xr, yr)
-        ax.set_xlabel('X - Longitude')
-        ax.set_ylabel('Y - Latitude')
+        ax.set_xlabel(f'X - {varx.capitalize()}')
+        ax.set_ylabel(f'Y - {vary.capitalize()}')
         ax.set_title('Map')
         plt.show()
 
