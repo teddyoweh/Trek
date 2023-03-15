@@ -8,6 +8,11 @@ import math
 
 class Trek(object):
     def __init__(self,filename:str) -> None:
+        """
+        :param filename:
+
+        
+        """
         self.map = None
         self.map_graph=None
 
@@ -25,6 +30,9 @@ class Trek(object):
                 self.map_graph[location]['longitude'] *= lon_miles_per_degree
 
     def graph(self):
+        """
+        Represent the Map from the Data as network graph using nodes to represent positions
+        """
         lat_miles_per_degree = 69
         lon_miles_per_degree = 69.172
 
@@ -40,6 +48,18 @@ class Trek(object):
         nx.draw(G, pos, with_labels=True ,node_color='lightblue', node_size=500, font_size=8)
         plt.show()
     def find_optimal_path(self,planned:list[str], start:str, end:str,speed:float=3.1):
+        """
+        ### Find the optimal path from the start to the end
+        :param planned:
+        :param start:
+        :param end:
+        :param speed:
+
+        ```py
+        self.find_optimal_path(planned=planned,start=start,end=end,speed=4.1)
+        ```
+
+        """
         distances = []
         times = []
         for i in range(len(planned) - 1):
@@ -106,6 +126,13 @@ class Trek(object):
  
 
     def visualize_optimal_path(self, best_path, best_times):
+        """
+        ### Visualize the routes from path given
+        ```py
+        best_sol = self.find_optimal_path(planned=planned,start=start,end=end,speed=4.1)
+        self.visualize_optimal_path(best_sol['path'],best_sol['times'])
+        ```
+        """
         G = nx.Graph()
         node_positions = {}
         node_labels = {}
@@ -135,7 +162,15 @@ class Trek(object):
         nx.draw_networkx_edge_labels(G, pos=node_positions, edge_labels=edge_labels, ax=ax)
 
         plt.show()
-    def estimate_time(self, start:str, end:str,speed:float=3.1):
+    def estimate_time(self, start:str, end:str,speed:float=3.1)->float:
+        """
+        ```txt
+        :param start: <start_location> 
+        :param end: <end_location
+        :return <time> minutes
+        ```
+        
+        """
         lat1, lon1 =self.map_graph[start]['latitude'], self.map_graph[start]['longitude']
         lat2, lon2 =self.map_graph[end]['latitude'], self.map_graph[end]['longitude']
         lat_diff = radians(lat2 - lat1)
@@ -149,9 +184,27 @@ class Trek(object):
         time = distance / speed
         return time
     @property
-    def locations(self):
+    def locations(self)->list[str]:
+        """
+        ```txt
+
+        Returns an array of Locations for the Map Data
+        :return list[str]
+        ```
+        """
         return list(self.map.keys())
-    def distance(self,pos1, pos2):
+    def distance(self,pos1:str, pos2:str):
+        """
+        ```txt
+
+        Calculate the distance between two points
+        :param pos1 <location_name1>:
+        :param pos2 <location_name2>:
+        :return: <miles> float
+        ```
+        
+        
+        """
 
         lat1 = math.radians(self.map[pos1]['latitude'])
         lon1 = math.radians(self.map[pos1]['longitude'])
@@ -169,6 +222,7 @@ class Trek(object):
 
         return round(distance,1)
     def plot_dot_graph(self):
+ 
         xr=[]
         yr=[]
         for pos1 in self.map:
