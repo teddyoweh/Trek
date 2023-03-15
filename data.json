@@ -1,0 +1,68 @@
+{
+    "Engineering Buiding":{
+        "latitude":32.214256505009985,
+        "longitude": -98.21779723918512
+    },
+     "Library":{
+         "latitude":32.215730969726785,
+         "longitude": -98.21730569278304
+     },
+     "Nursing Building":{
+         "latitude":32.21664588196621,
+         "longitude": -98.22043371534166
+     },
+     "Centennial":{
+        "latitude":32.217553223855305,
+        "longitude": -98.2217742964382
+    },
+     "Rec":{
+         "latitude":32.21630562642345,
+         "longitude":  -98.2224535241938
+     },
+      "Science Building":{
+         "latitude":     32.216883861659866, 
+         "longitude": -98.21972368519181
+     },
+
+     "Student Center":{
+         "latitude":32.21768176322404, 
+         "longitude": -98.21858371342843
+     }
+     ,"Dining Hall":{
+        "latitude":32.2178254246564,
+        "longitude": -98.21791342288013
+    },
+     "Honors Hall":{
+         "latitude":32.216131717543234, 
+         "longitude":  -98.21936125046442
+     },
+     "Heritage Hall":{
+         "latitude":32.21875543791148, 
+         "longitude":  -98.21975448758607
+     },
+     "Hunnewell Hall":{
+        "latitude":32.21636498651769,
+        "longitude":  -98.2146443060869
+    },
+     "Mathematic Building":{
+         "latitude":32.216696108219054, 
+         "longitude": -98.21673716080358
+     },
+     "Legends":{
+         "latitude":32.21772417564671,
+         "longitude":  -98.2212426209783
+     }
+     ,"Legacy":{
+        "latitude":32.217963653269614,
+        "longitude":  -98.220472065015
+    },
+     "Integrity Hall":{
+         "latitude":32.21921876315668, 
+         "longitude":  -98.22109181516743
+     },
+     "Texan Village":{
+         "latitude":32.21862007618148, 
+         "longitude":  -98.22219260940068
+     }
+
+}
