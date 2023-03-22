@@ -93,6 +93,8 @@ t.plot_line_graph()
 # Plot the map on a dot graph 
 t.plot_dot_graph()
 
+# Manually Map out on environment
+t.plot_web(port=9949)
 # Find the optimal path between two points
 planned = ['A', 'B', 'C', 'D', 'E'] # Places you plan to stop or visit, include start and end
 start = 'A'

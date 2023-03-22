@@ -2,6 +2,7 @@ README.md
 setup.py
 trekpy/Trek.py
 trekpy/__init__.py
+trekpy/constants.py
 trekpy/decorators.py
 trekpy.egg-info/PKG-INFO
 trekpy.egg-info/SOURCES.txt

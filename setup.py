@@ -6,7 +6,7 @@ HERE = pathlib.Path(__file__).parent
  
 README = (HERE / "README.md").read_text()
  
-VERSION = '0.0.5'
+VERSION = '0.0.6'
 DESCRIPTION = 'Using graph theory algorithms and simulations, to optimaize paths and travel times between nodes on a geospatial map'
 LONG_DESCRIPTION = 'Using graph theory algorithms and simulations, to optimaize paths and travel times between nodes on a geospatial map'
 
